@@ -75,30 +75,36 @@ class App:
         self.id.focus()
         self.id.pack(pady = 5)
 
+        self.btn_buscar = Button(self.ventana, text = "Buscar", command= lambda: self.buscar_controller("modificar"))
+        self.btn_buscar.pack(pady = 5)
+        #Variables asociadas a los campos  
+        self.var_marca = StringVar()
+        self.var_color = StringVar()
+        self.var_modelo = StringVar()       
+        self.var_velocidad = StringVar()
+        self.var_potencia = StringVar()
+        self.var_asientos = StringVar()
+
         Label(self.ventana, text = "Nueva marca:").pack(pady = 5)
-        self.marca = Entry(self.ventana)
+        self.marca = Entry(self.ventana, textvariable = self.var_marca)
         self.marca.pack(pady = 5)
         Label(self.ventana, text = "Nuevo color:").pack(pady = 5)
-        self.color = Entry(self.ventana)
-        
+        self.color = Entry(self.ventana, textvariable = self.var_color)
         self.color.pack(pady = 5)
         Label(self.ventana, text = "Nuevo modelo:").pack(pady = 5)
-        self.modelo = Entry(self.ventana)
-        
+        self.modelo = Entry(self.ventana, textvariable = self.var_modelo)
         self.modelo.pack(pady = 5)
         Label(self.ventana, text = "Nueva velocidad:").pack(pady = 5)
-        self.velocidad = Entry(self.ventana)
-        
+        self.velocidad = Entry(self.ventana, textvariable = self.var_velocidad)
         self.velocidad.pack(pady = 5)
         Label(self.ventana, text = "Nueva potencia:").pack(pady = 5)
-        self.potencia = Entry(self.ventana)
-        
+        self.potencia = Entry(self.ventana, textvariable = self.var_potencia)
         self.potencia.pack(pady = 5)
         Label(self.ventana, text = "Nuevos Asientos:").pack(pady = 5)
-        self.asientos = Entry(self.ventana)
-        
+        self.asientos = Entry(self.ventana, textvariable = self.var_asientos)
         self.asientos.pack(pady = 5)
-        Button(self.ventana, text = "Guardar", command = lambda: (self.modificar_controller(), self.modificar_view())).pack(pady = 10)
+        self.btn_modificar = Button(self.ventana, text = "Guardar", state= "disabled", command = lambda: (self.modificar_controller(), self.modificar_view()))
+        self.btn_modificar.pack(pady=10)
         Button(self.ventana, text = "Regresar", command = self.menu_acciones).pack(pady = 5)
 
     def consultar_view(self):
@@ -172,6 +178,13 @@ class App:
         if len(coche1) > 0:
             messagebox.showinfo(title="... ¡Registro  encontrado! ...", message=f"...El registro fue encontrado con exito, puedes {tipo_accion}...")
             self.cambiar_estado_btn(True, tipo_accion)
+            if tipo_accion == "modificar":
+                self.var_marca.set(coche1[0] [1])
+                self.var_color.set(coche1[0] [2])
+                self.var_modelo.set(coche1[0] [3])
+                self.var_velocidad.set(coche1[0] [4])
+                self.var_potencia.set(coche1[0] [5])
+                self.var_asientos.set(coche1[0] [6])
         else:
             messagebox.showerror(title="... ¡Verifica por favor! ...", message=f"...El registro no fue encontrado, no es posible {tipo_accion}...")
             self.cambiar_estado_btn(False, tipo_accion)
