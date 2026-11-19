@@ -14,6 +14,28 @@ class App:
         for witget in self.ventana.winfo_children():
             witget.destroy()
 
+    def barraMenu(self):
+        #Menu de Opciones
+        menuBar = Menu(self.ventana)
+        self.ventana.config(menu=menuBar)
+
+
+        menuPrincipal = Menu(menuBar , tearoff=False)
+        menuBar.add_cascade(label="Principal" , menu=menuPrincipal)
+        menuPrincipal.add_command(label="Menu Principal",command=self.main)
+        menuPrincipal.add_command(label="Menu Acciones",command=self.menu_acciones)
+        menuPrincipal.add_separator()
+        menuPrincipal.add_command(label="Salir",command=self.ventana.quit)
+                
+        accionesMenu = Menu(menuBar , tearoff=False)
+        menuBar.add_cascade(label="Acciones" , menu=accionesMenu)
+        accionesMenu.add_command(label="Agregar",command=self.insertar_view )
+        accionesMenu.add_command(label="Borrar",command=self.eliminar_view)
+        accionesMenu.add_command(label="Modificar",command=self.modificar_view)
+        accionesMenu.add_command(label="Mostrar",command=self.consultar_view)
+        accionesMenu.add_separator()
+        accionesMenu.add_command(label="Regresar",command=self.main)
+
     def menu_acciones(self):
         self.borrarPantalla()
         tipo = "Coches"
@@ -26,6 +48,7 @@ class App:
 
     def insertar_view(self):
         self.borrarPantalla()
+        self.barraMenu()
         Label(self.ventana, text = "...Ingresar los datos del coche...").pack(pady = 10)
         Label(self.ventana, text = "Marca:").pack(pady = 5)
         self.marca = Entry(self.ventana)
@@ -56,6 +79,7 @@ class App:
 
     def eliminar_view(self):
         self.borrarPantalla()
+        self.barraMenu()
         Label(self.ventana, text = "...Ingresar el ID del coche a eliminar...").pack(pady = 10)
         Label(self.ventana, text = "ID:").pack(pady = 5)
         self.id = Entry(self.ventana)
@@ -69,6 +93,7 @@ class App:
 
     def modificar_view(self):
         self.borrarPantalla()
+        self.barraMenu()
         Label(self.ventana, text = "...Ingresar el ID del coche a modificar...").pack(pady = 10)
         Label(self.ventana, text = "ID:").pack(pady = 5)
         self.id = Entry(self.ventana)
@@ -109,6 +134,7 @@ class App:
 
     def consultar_view(self):
         self.borrarPantalla()
+        self.barraMenu()
         Label(self.ventana, text="...Consultar los coches...").pack(pady=10)
         filas = ""
         filas = self.consultar_controller(filas)
