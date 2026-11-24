@@ -1,3 +1,5 @@
+from tkinter import ttk
+
 from coches import coches
 from tkinter import *
 from tkinter import messagebox
@@ -148,9 +150,20 @@ class App:
         self.borrarPantalla()
         self.barraMenu()
         Label(self.ventana, text="...Consultar los coches...").pack(pady=10)
-        filas = ""
-        filas = self.consultar_controller(filas)
-        Label(self.ventana, text=f"{filas}").pack(pady=5)
+        # Tabla
+        self.tree =ttk.Treeview(self.ventana, columns=("ID", "Marca", "Color", "Modelo","Velocidad","Potencia","Asientos"), show="headings")
+        self.tree.heading("ID", text="ID")
+        self.tree.heading("Marca", text="Marca")
+        self.tree.heading("Color", text="Color")
+        self.tree.heading("Modelo", text="Modelo")
+        self.tree.heading("Velocidad", text="Velocidad")
+        self.tree.heading("Potencia", text="Potencia")
+        self.tree.heading("Asientos", text="Asientos")
+        self.tree.pack(fill="both", expand=False)
+
+        #Colocar los datos
+        self.mostrarCoches()
+
         Button(self.ventana, text= "Regresar", command= self.menu_acciones).pack(pady=5)
 
     def cambiar_estado_btn(self, estado, tipo_accion):
@@ -228,6 +241,11 @@ class App:
             self.cambiar_estado_btn(False, tipo_accion)
         del coche1
 
+    def mostrarCoches(self):
+        for row in self.tree.get_children():
+            self.tree.delete(row)
+        for row in coches.Coches.consultar():
+            self.tree.insert("", "end", values=row)
     def main(self):
         self.borrarPantalla()
         Label(self.ventana, text = "\n...::: M E N U  P R I N C I P A L :::...").pack(pady=10)
